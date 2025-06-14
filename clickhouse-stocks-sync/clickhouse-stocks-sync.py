@@ -87,6 +87,7 @@ def main():
         )
 
         today_str = datetime.now().strftime('%Y-%m-%d')
+        today_date = datetime.now().date()  # Add date object for ClickHouse insert
         successful_inserts = 0
 
         for symbol in SYMBOLS:
@@ -101,7 +102,7 @@ def main():
             try:
                 entry = {
                     'symbol': symbol,
-                    'date': today_str,
+                    'date': today_date,  # Use date object instead of string
                     'open': raw_data['open'],
                     'high': raw_data['dayHigh'],
                     'low': raw_data['dayLow'],
