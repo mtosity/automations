@@ -1,6 +1,10 @@
-# ClickHouse Stocks Sync
+[![Daily Stock Data Sync](https://github.com/mtosity/automations/actions/workflows/stocks-sync.yml/badge.svg)](https://github.com/mtosity/automations/actions/workflows/stocks-sync.yml)
 
-A Python automation tool that fetches stock data and syncs it to ClickHouse database.
+# Automations
+
+Automation scripts for boring tasks.
+
+- Clickhouse Stocks Sync: Syncs stock data from FMP to Clickhouse.
 
 ## Environment Setup
 
@@ -64,46 +68,6 @@ deactivate
 
 The `(venv)` should disappear from your terminal prompt.
 
-## GitHub Actions Automation
-
-The project includes a GitHub Actions workflow that automatically runs the stock sync script daily at 8:00 PM UTC.
-
-### Setting Up Automated Runs
-
-1. **Push the workflow file to your GitHub repository:**
-
-   ```bash
-   git add .github/workflows/stocks-sync.yml
-   git commit -m "Add daily stock sync workflow"
-   git push
-   ```
-
-2. **Configure GitHub Secrets:**
-
-   Go to your GitHub repository → Settings → Secrets and variables → Actions
-
-   Add the following repository secrets:
-
-   - `FMP_API_KEY`: Your Financial Modeling Prep API key
-   - `CLICKHOUSE_HOST`: ClickHouse server host
-   - `CLICKHOUSE_PORT`: ClickHouse server port (usually 8123)
-   - `CLICKHOUSE_USER`: ClickHouse username
-   - `CLICKHOUSE_PASSWORD`: ClickHouse password
-   - `CLICKHOUSE_DB`: ClickHouse database name
-
-3. **Manual Trigger:**
-
-   You can manually trigger the workflow from:
-   GitHub repository → Actions → "Daily Stock Data Sync" → "Run workflow"
-
-### Workflow Features
-
-- **Scheduled Runs**: Automatically runs daily at 8:00 PM UTC
-- **Manual Trigger**: Can be run manually when needed
-- **Dependency Caching**: Speeds up workflow execution
-- **Error Handling**: Uploads logs if the sync fails
-- **Artifact Retention**: Keeps error logs for 30 days
-
 ## Environment Variables
 
 Create a `.env` file in the `clickhouse-stocks-sync/` directory with:
@@ -137,26 +101,3 @@ automations/
     ├── clickhouse-stocks-sync.py     # Main script
     └── .env                          # Environment variables (create this)
 ```
-
-## Troubleshooting
-
-**Virtual environment not activating?**
-
-- Make sure you're in the correct directory (`automations/`)
-- Try: `ls -la` to verify `venv/` folder exists
-
-**Import errors?**
-
-- Ensure virtual environment is activated (`(venv)` in prompt)
-- Reinstall dependencies: `pip install -r requirements.txt`
-
-**Permission issues?**
-
-- Make sure the script is executable: `chmod +x clickhouse-stocks-sync/clickhouse-stocks-sync.py`
-
-**GitHub Actions failing?**
-
-- Check that all secrets are properly configured in GitHub repository settings
-- Verify the ClickHouse server is accessible from GitHub Actions runners
-- Check the workflow logs in the Actions tab for specific error messages
-# automations
