@@ -1,7 +1,7 @@
 import os
 import requests
 import clickhouse_connect
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 from dotenv import load_dotenv
 import time
@@ -50,7 +50,9 @@ logging.basicConfig(
 )
 
 def fetch_stock_data(symbol):
-    url = f'https://financialmodelingprep.com/api/v3/quote/{symbol}?apikey={API_KEY}'
+    # Use today's date for both from and to parameters to get only today's data
+    today_str = datetime.now().strftime('%Y-%m-%d')
+    url = f'https://financialmodelingprep.com/api/v3/quote/{symbol}?apikey={API_KEY}&from={today_str}&to={today_str}'
     for attempt in range(MAX_RETRIES):
         try:
             response = requests.get(url, timeout=10)
