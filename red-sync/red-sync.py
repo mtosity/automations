@@ -95,11 +95,6 @@ def run(stock_symbol):
     )
     output = completion.choices[0].message.content
 
-    # output to and md file
-    with open("red_output.md", "w") as file:
-        file.write(output + "\n")
-        file.close()
-
     print(f"{stock_symbol} - Recommendation generated. Now extracting sector, market cap, and recommendation...")
 
     completion = client.chat.completions.create(
