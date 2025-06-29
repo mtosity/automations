@@ -3,17 +3,14 @@ name: Get stock recommendations (FMP -> LLM -> Supabase)
 on:
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: "Log level"
+      stock_symbols:
+        description: "Stock symbols"
         required: true
-        default: "warning"
-      tags:
-        description: "Test scenario tags"
+        default: "AAPL,GOOGL,MSFT"
 
 jobs:
   printInputs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "Log level: ${{ github.event.inputs.logLevel }}"
-          echo "Tags: ${{ github.event.inputs.tags }}"
+          echo "Log level: ${{ github.event.inputs.stock_symbols }}"
