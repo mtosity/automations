@@ -21,6 +21,7 @@ client = OpenAI(
     api_key=AI_API_KEY,
     base_url=AI_BASE_URL,
 )
+print(SUPABASE_URL, SUPABASE_KEY.strip()[:3] + '...')  # Print first 10 chars of the key for security
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def build_url(base_url, path, params):
