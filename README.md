@@ -87,6 +87,18 @@ CLICKHOUSE_DB=default
 - `python-dotenv`: Environment variable management
 - `requests`: HTTP requests for API calls
 
+## Pricing Information
+
+**Discount Period**: UTC 16:30-00:30 (EST 11:30-19:30)
+
+| Token Type | Standard Rate | Discount Rate |
+|------------|---------------|---------------|
+| 1M Tokens Input (Cache Hit) | $0.070 | $0.035 (50% OFF) |
+| 1M Tokens Input (Cache Miss) | $0.270 | $0.135 (50% OFF) |
+| 1M Tokens Output | $1.100 | $0.550 (50% OFF) |
+
+*Note: During discount hours, pricing is 50% off standard rates*
+
 ## Project Structure
 
 ```

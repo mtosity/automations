@@ -1,16 +1,67 @@
-name: Get stock recommendations (FMP -> LLM -> Supabase)
+name: Generate stock analysis report
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Allow manual triggering
     inputs:
       stock_symbols:
-        description: "Stock symbols"
+        description: 'Stock symbols to analyze (comma-separated, e.g., "MSFT,AAPL,GOOGL")'
         required: true
         default: "AAPL,GOOGL,MSFT"
+        type: string
 
 jobs:
-  printInputs:
+  red-sync:
     runs-on: ubuntu-latest
+    timeout-minutes: 360 # 6 hours timeout for the entire job
+
     steps:
-      - run: |
-          echo "Log level: ${{ github.event.inputs.stock_symbols }}"
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run red-sync script
+        timeout-minutes: 50 # 50 minutes timeout for the sync step
+        env:
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_BASE_URL: ${{ secrets.AI_BASE_URL }}
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+          FMP_BASE_URL: ${{ secrets.FMP_BASE_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: |
+          cd red-sync
+          echo "Running red-sync with symbols: ${{ github.event.inputs.stock_symbols }}"
+          python red-sync.py "${{ github.event.inputs.stock_symbols }}"
+
+      - name: Upload output on completion
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: red-sync-output
+          path: red-sync/red_output.md
+          retention-days: 30
+
+      - name: Upload system prompt on completion
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: red-sync-system-prompt
+          path: red-sync/red_system_prompt.txt
+          retention-days: 30
