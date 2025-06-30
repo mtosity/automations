@@ -22,7 +22,11 @@ client = OpenAI(
     base_url=AI_BASE_URL,
 )
 # print the last 5 characters of the keys for security
-print(SUPABASE_URL.strip()[:5] + '...', SUPABASE_KEY.strip()[:5] + '...')  # Print first 5 chars of the URL and first
+print(f"SUPABASE_URL: ...{SUPABASE_URL[-5:] if SUPABASE_URL else 'None'}")
+print(f"SUPABASE_KEY: ...{SUPABASE_KEY[-5:] if SUPABASE_KEY else 'None'}")
+
+
+
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def build_url(base_url, path, params):
