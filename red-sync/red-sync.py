@@ -21,11 +21,6 @@ client = OpenAI(
     api_key=AI_API_KEY,
     base_url=AI_BASE_URL,
 )
-# print the last 5 characters of the keys for security
-print(f"SUPABASE_URL: ...{SUPABASE_URL[-5:] if SUPABASE_URL else 'None'}")
-print(f"SUPABASE_KEY: ...{SUPABASE_KEY[-5:] if SUPABASE_KEY else 'None'}")
-
-
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
